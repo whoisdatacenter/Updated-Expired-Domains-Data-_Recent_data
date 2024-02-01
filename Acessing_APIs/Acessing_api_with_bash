@@ -1,0 +1,21 @@
+#!/bin/bash
+
+api_key="ba5d05197020c53b6c3670e273637c48829c9148b6816561820050108055b8af"
+expiration_date="2023-12-12"
+current_date=$(date +"%Y-%m-%d")
+
+if [[ "$current_date" < "$expiration_date" ]]; then
+api_url="https://api.whoisdatacenter.com/v1/download/expiring?apiKey=$api_key&date=$expiration_date"
+output_file="downloaded_data.zip"
+
+# Check if the file already exists
+if [[ -e "$output_file" ]]; then
+echo "File already exists. Skipping download."
+else
+# Download the file if it doesn't exist
+curl -o "$output_file" "$api_url"
+echo "Download successful."
+fi
+else
+echo "File has expired. Not downloading."
+fi
